@@ -1,9 +1,9 @@
 # prometheus-fping-exporter
 
 prometheus-fping-exporter allows you to run measure network latency using fping and
-prometheus. Compared to blackbox-exporter, it gives you additionally latency
-distribution and a packet loss statistics. Also, it is probably better
-performing thanks to fping.
+prometheus. Compared to [blackbox-exporter](https://github.com/prometheus/blackbox_exporter),
+it gives you additionally latency distribution and a packet loss statistics.
+Also, it is probably better performing thanks to fping.
 
 **WARNING: This is currently a work in progress, the code is not production-ready yet**
 
