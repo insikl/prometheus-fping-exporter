@@ -1,20 +1,21 @@
-# fping-exporter
+# prometheus-fping-exporter
 
-fping-exporter allows you to run measure network latency using fping and
+prometheus-fping-exporter allows you to run measure network latency using fping and
 prometheus. Compared to blackbox-exporter, it gives you additionally latency
 distribution and a packet loss statistics. Also, it is probably better
 performing thanks to fping.
 
 **WARNING: This is currently a work in progress, the code is not production-ready yet**
 
-This graph shows the fping\_rtt summary as "SmokePing"-like graph in Grafana:
+This graph shows the fping\_rtt summary as "[SmokePing](https://oss.oetiker.ch/smokeping/)"-like graph in Grafana:
 ![screenshot](README_screenshot.png)
 
 ## Usage
 
 1. Start fping-exporter as follows:
+
    ```
-     fping-exporter [OPTIONS]
+     prometheus-fping-exporter [OPTIONS]
    
    Application Options:
      -l, --listen=[HOST]:PORT    Listen address (default: :9605)
@@ -25,7 +26,9 @@ This graph shows the fping\_rtt summary as "SmokePing"-like graph in Grafana:
    Help Options:
      -h, --help                  Show this help message
    ```
+
 2. Configure Prometheus to use this, as you would with blackbox-exporter. For example:
+
    ```
    global:
      scrape_interval: 60s
@@ -35,23 +38,36 @@ This graph shows the fping\_rtt summary as "SmokePing"-like graph in Grafana:
        metrics_path: /probe
        static_configs:
        - targets:
-         - "8.8.4.4"
-         - "8.8.8.8"
-       relabel_configs:
-       - source_labels: [__address__]
-         target_label: __param_target
-       - source_labels: [__param_target]
-         target_label: instance
-       - target_label: __address__
-         replacement: 127.0.0.1:9605  # The fping-exporter's real hostname:port.
+         - "localhost:9605!8.8.4.4"
+         - "localhost:9605!8.8.8.8"
+    relabel_configs:
+      # Set query param `?target=<fping_target>`
+      - source_labels: [__address__]
+        target_label: __param_target
+        regex: '.*!(.*)'
+        replacement: $1
+
+      # set Prometheus instance to include target and source host pulled from
+      # the `__address__` field.
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '(.*)!(.*)'
+        replacement: '$2@$1'
+
+      # get real target (eg `localhost:9605`) and replace `__address__`
+      - source_labels: [__address__]
+        target_label: __address__
+        regex: '(.*)!.*'
+        replacement: $1
    ```
 
 ## Metrics
 
-fping-exporter produces the following metrics:
+prometheus-fping-exporter produces the following metrics:
 
 - `fping_sent_count`: Number of sent probes
 - `fping_lost_count`: Number of lost probes
 - `fping_rtt_count`: Number of measured latencies (successful probes)
 - `fping_rtt_sum`: Sum of measured latencies
 - `fping_rtt`: Summary of measured latencies
+
