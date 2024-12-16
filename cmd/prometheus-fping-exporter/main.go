@@ -19,10 +19,20 @@ var opts struct {
 	Version bool   `long:"version" description:"Show version"`
 }
 
+// Build information.
+const (
+	BuildVersion = "0.1.1"
+)
+
+// Build information populated at build-time.
 var (
-	buildVersion = "dev"
-	buildCommit  = "none"
-	buildDate    = "unknown"
+	BuildName     string
+	BuildCommit   string
+	BuildBranch   string
+	BuildUser     string
+	BuildDate     string
+	BuildGo       string
+	BuildPlatform string
 )
 
 func probeHandler(w http.ResponseWriter, r *http.Request) {
@@ -54,10 +64,21 @@ func main() {
 	if _, err := flags.Parse(&opts); err != nil {
 		os.Exit(0)
 	}
+
 	if opts.Version {
-		fmt.Printf("fping-exporter %v (commit %v, built %v)\n", buildVersion, buildCommit, buildDate)
+		fmt.Printf("%v, version %v (branch: %v, revision: %v)\n",
+			BuildName,
+			BuildVersion,
+			BuildBranch,
+			BuildCommit,
+		)
+		fmt.Printf("  build user:       %v\n", BuildUser)
+		fmt.Printf("  build date:       %v\n", BuildDate)
+		fmt.Printf("  go version:       %v\n", BuildGo)
+		fmt.Printf("  platform:         %v\n", BuildPlatform)
 		os.Exit(0)
 	}
+
 	if _, err := os.Stat(opts.Fping); os.IsNotExist(err) {
 		fmt.Printf("could not find fping at %q\n", opts.Fping)
 		os.Exit(1)
