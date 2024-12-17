@@ -1,39 +1,12 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "6.2.5"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    }
-  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -42,454 +15,979 @@
       }
     ]
   },
+  "description": "Shows latency from fping output in a smoke type view",
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1584732188434,
+  "id": 6,
   "links": [],
   "panels": [
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 0,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "be4hg3g0caqdcc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 0,
+            "pointSize": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": 120000,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p5"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#202020",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p10"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#404040",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p5"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p15"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#575757",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p10"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p20"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6f6f6f",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p15"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p25"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#878787",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p20"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p30"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#9f9f9f",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p25"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p35"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#b7b7b7",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p30"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p40"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#cfcfcf",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p35"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p45"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e7e7e7",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p40"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p50"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ffffff",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p45"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p55"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ffffffff",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p50"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p60"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ffffff",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p55"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p65"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e7e7e7",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p60"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p70"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#cfcfcf",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p65"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p75"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#b7b7b7",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p70"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p80"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#9f9f9f",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p75"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p85"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#878787",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p80"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p90"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#6f6f6f",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p85"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p95"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#575757",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p90"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "p100"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#404040",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillBelowTo",
+                "value": "p95"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "median"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#ffb357",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "% loss"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#e02f44",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "bars"
+              },
+              {
+                "id": "custom.axisSoftMax",
+                "value": 100
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "bars"
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
-        "h": 7,
-        "w": 12,
+        "h": 10,
+        "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 2,
+      "id": 1,
       "interval": "1m",
-      "legend": {
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
       "maxPerRow": 2,
-      "nullPointMode": "null",
-      "options": {},
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "repeat": "host",
-      "repeatDirection": "h",
-      "seriesOverrides": [
-        {
-          "alias": "p100",
-          "color": "#404040",
-          "fillBelowTo": "p95",
-          "lines": false
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
-        {
-          "alias": "p95",
-          "color": "#575757",
-          "fillBelowTo": "p90",
-          "lines": false
-        },
-        {
-          "alias": "p90",
-          "color": "#6f6f6f",
-          "fillBelowTo": "p85",
-          "lines": false
-        },
-        {
-          "alias": "p85",
-          "color": "#878787",
-          "fillBelowTo": "p80",
-          "lines": false
-        },
-        {
-          "alias": "p80",
-          "color": "#9f9f9f",
-          "fillBelowTo": "p75",
-          "lines": false
-        },
-        {
-          "alias": "p75",
-          "color": "#b7b7b7",
-          "fillBelowTo": "p70",
-          "lines": false
-        },
-        {
-          "alias": "p70",
-          "color": "#cfcfcf",
-          "fillBelowTo": "p65",
-          "lines": false
-        },
-        {
-          "alias": "p65",
-          "color": "#e7e7e7",
-          "fillBelowTo": "p60",
-          "lines": false
-        },
-        {
-          "alias": "p60",
-          "color": "#ffffff",
-          "fillBelowTo": "p55",
-          "lines": false
-        },
-        {
-          "alias": "p55",
-          "color": "#ffffff",
-          "fillBelowTo": "p50",
-          "lines": false
-        },
-        {
-          "alias": "p50",
-          "color": "#ffffff",
-          "fillBelowTo": "p45",
-          "lines": false
-        },
-        {
-          "alias": "p45",
-          "color": "#e7e7e7",
-          "fillBelowTo": "p40",
-          "lines": false
-        },
-        {
-          "alias": "p40",
-          "color": "#cfcfcf",
-          "fillBelowTo": "p35",
-          "lines": false
-        },
-        {
-          "alias": "p35",
-          "color": "#b7b7b7",
-          "fillBelowTo": "p30",
-          "lines": false
-        },
-        {
-          "alias": "p30",
-          "color": "#9f9f9f",
-          "fillBelowTo": "p25",
-          "lines": false
-        },
-        {
-          "alias": "p25",
-          "color": "#878787",
-          "fillBelowTo": "p20",
-          "lines": false
-        },
-        {
-          "alias": "p20",
-          "color": "#6f6f6f",
-          "fillBelowTo": "p15",
-          "lines": false
-        },
-        {
-          "alias": "p15",
-          "color": "#575757",
-          "fillBelowTo": "p10",
-          "lines": false
-        },
-        {
-          "alias": "p10",
-          "color": "#404040",
-          "fillBelowTo": "p5",
-          "lines": false
-        },
-        {
-          "alias": "p5",
-          "lines": false
-        },
-        {
-          "alias": "median",
-          "color": "#FFB357",
-          "linewidth": 3,
-          "zindex": 1
-        },
-        {
-          "alias": "l100",
-          "color": "#202020",
-          "hideTooltip": true,
-          "legend": false
-        },
-        {
-          "alias": "l5",
-          "color": "#202020",
-          "hideTooltip": true,
-          "legend": false
-        },
-        {
-          "alias": "/p.*/",
-          "legend": false
-        },
-        {
-          "alias": "% loss",
-          "bars": true,
-          "color": "#E02F44",
-          "yaxis": 2,
-          "zindex": -3
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      },
+      "pluginVersion": "11.4.0",
+      "repeat": "fping_target",
+      "repeatDirection": "v",
       "targets": [
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"1.000\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"1.000\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p100",
-          "refId": "B"
+          "range": true,
+          "refId": "p100",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.950\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.950\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p95",
-          "refId": "C"
+          "range": true,
+          "refId": "p95",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.850\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "p85",
-          "refId": "E"
-        },
-        {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.900\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.900\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p90",
-          "refId": "D"
+          "range": true,
+          "refId": "p90",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.800\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.850\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "p85",
+          "range": true,
+          "refId": "p85",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.800\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p80",
-          "refId": "F"
+          "range": true,
+          "refId": "p80",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.750\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.750\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p75",
-          "refId": "H"
+          "range": true,
+          "refId": "p75",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.700\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.700\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p70",
-          "refId": "I"
+          "range": true,
+          "refId": "p70",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.650\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.650\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p65",
-          "refId": "J"
+          "range": true,
+          "refId": "p65",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.600\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.600\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p60",
-          "refId": "K"
+          "range": true,
+          "refId": "p60",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.550\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.550\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p55",
-          "refId": "L"
+          "range": true,
+          "refId": "p55",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.500\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.500\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p50",
-          "refId": "M"
+          "range": true,
+          "refId": "p50",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.450\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.450\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p45",
-          "refId": "A"
+          "range": true,
+          "refId": "p45",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.400\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.400\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p40",
-          "refId": "N"
+          "range": true,
+          "refId": "p40",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.350\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.350\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p35",
-          "refId": "O"
+          "range": true,
+          "refId": "p35",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.300\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.300\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p30",
-          "refId": "P"
+          "range": true,
+          "refId": "p30",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.250\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.250\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p25",
-          "refId": "Q"
+          "range": true,
+          "refId": "p25",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.200\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.200\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p20",
-          "refId": "R"
+          "range": true,
+          "refId": "p20",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.150\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.150\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p15",
-          "refId": "S"
+          "range": true,
+          "refId": "p15",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.100\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.100\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "p10",
-          "refId": "T"
+          "range": true,
+          "refId": "p10",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.050\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.050\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "p5",
-          "refId": "U"
+          "range": true,
+          "refId": "p5",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.500\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg_over_time(fping_rtt{quantile=\"0.500\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "median",
-          "refId": "G"
+          "range": true,
+          "refId": "median",
+          "useBackend": false
         },
         {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"1.000\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "l100",
-          "refId": "V"
-        },
-        {
-          "expr": "avg_over_time(fping_rtt{instance=~\"$host\",quantile=\"0.050\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "l5",
-          "refId": "W"
-        },
-        {
-          "expr": "avg_over_time(fping_lost_count{instance=~\"$host\"}[$__interval])/avg_over_time(fping_sent_count{instance=~\"$host\"}[$__interval])",
-          "format": "time_series",
-          "intervalFactor": 1,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "be4hg3g0caqdcc"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "avg_over_time(fping_lost_count{instance=~\"$fping_target@$fping_source:.*\"}[$__interval])/avg_over_time(fping_sent_count{instance=~\"$fping_target@$fping_source:.*\"}[$__interval])*100",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
           "legendFormat": "% loss",
-          "refId": "X"
+          "range": true,
+          "refId": "loss",
+          "useBackend": false
         }
       ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Ping Latency [[host]]",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "s",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": "0",
-          "show": true
-        },
-        {
-          "format": "percentunit",
-          "label": null,
-          "logBase": 1,
-          "max": "1",
-          "min": "0",
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": true,
-        "alignLevel": null
-      }
+      "title": "Ping Latency ${fping_target} from ${fping_source}",
+      "type": "timeseries"
     }
   ],
-  "refresh": false,
-  "schemaVersion": 18,
-  "style": "dark",
-  "tags": [],
+  "preload": false,
+  "schemaVersion": 40,
+  "tags": [
+    "latency",
+    "ping"
+  ],
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_PROMETHEUS}",
-        "definition": "label_values(fping_rtt_count, instance)",
-        "hide": 0,
-        "includeAll": true,
-        "label": null,
-        "multi": true,
-        "name": "host",
+        "definition": "label_values(fping_rtt_count,instance)",
+        "includeAll": false,
+        "label": "Source Host",
+        "name": "fping_source",
         "options": [],
-        "query": "label_values(fping_rtt_count, instance)",
+        "query": {
+          "qryType": 1,
+          "query": "label_values(fping_rtt_count,instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
         "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 5,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "regex": "/.+\\@(.+)\\:.*/",
+        "type": "query"
+      },
+      {
+        "current": {},
+        "definition": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\"},job)",
+        "label": "Job",
+        "name": "job",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\"},job)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/smokeping_(.+)/",
+        "type": "query"
+      },
+      {
+        "current": {
+          "text": "All",
+          "value": [
+            "$__all"
+          ]
+        },
+        "definition": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\", job=\"smokeping_$job\"},instance)",
+        "includeAll": true,
+        "label": "Target Host",
+        "multi": true,
+        "name": "fping_target",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\", job=\"smokeping_$job\"},instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "/(.+)\\@.*/",
+        "type": "query"
       }
     ]
   },
   "time": {
-    "from": "now-2d",
+    "from": "now-24h",
     "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
       "1m",
       "5m",
       "15m",
@@ -497,21 +995,11 @@
       "1h",
       "2h",
       "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
     ]
   },
-  "timezone": "",
-  "title": "fping",
-  "uid": "exQs214Wk",
-  "version": 21
+  "timezone": "browser",
+  "title": "SmokePing Latency",
+  "uid": "ee5xqvrp5w64gf",
+  "version": 27,
+  "weekStart": ""
 }
