@@ -10,6 +10,33 @@ Also, it is probably better performing thanks to fping.
 This graph shows the fping\_rtt summary as "[SmokePing](https://oss.oetiker.ch/smokeping/)"-like graph in Grafana:
 ![screenshot](README_screenshot.png)
 
+## Build Steps (manual)
+
+1. Clone repo
+
+   ```
+   git clone <this repo url>
+   ```
+
+2. Change into cloned repos directory
+
+   ```
+   cd <this repo name>
+   ```
+
+3. Build go binaries with the following command, this will place files in the
+   `bin/*` directory.
+
+   ```
+   make build
+   ```
+
+   > NOTE The `Makefile` build will override the `GOBIN` environment to force
+   > install of binaries into the `bin/*` directory. The `make` process will
+   > look for `cmd/*/main.go` and create binary named after the directory.
+
+4. Run script after configuration (detailed below)
+
 ## Usage
 
 1. Start fping-exporter as follows:
