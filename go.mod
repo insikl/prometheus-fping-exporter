@@ -1,4 +1,4 @@
-module github.com/schweikert/fping-exporter
+module github.com/insikl/prometheus-fping-exporter
 
 go 1.21
 
