@@ -5,6 +5,7 @@ import (
 	"log"
 	"math"
 	"sync"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
@@ -15,6 +16,7 @@ type Target struct {
 	spec         TargetSpec
 	registry     *prometheus.Registry
 	measurements *Measurements
+	lastAccessed time.Time
 }
 
 func NewTarget(ts TargetSpec) *Target {

@@ -49,6 +49,7 @@ This graph shows the fping\_rtt summary as "[SmokePing](https://oss.oetiker.ch/s
      -p, --period=SECS           Period in seconds, should match Prometheus scrape interval (default: 60)
      -f, --fping=PATH            Fping binary path (default: /usr/bin/fping)
      -c, --count=N               Number of pings to send at each period (default: 20)
+     -s, --stale-threshold=SECS  Stale target threshold in seconds (default: 300)
    
    Help Options:
      -h, --help                  Show this help message

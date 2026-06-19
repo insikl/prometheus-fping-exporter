@@ -12,11 +12,12 @@ import (
 )
 
 var opts struct {
-	Listen  string `short:"l" long:"listen" description:"Listen address" value-name:"[HOST]:PORT" default:":9605"`
-	Period  uint   `short:"p" long:"period" description:"Period in seconds, should match Prometheus scrape interval" value-name:"SECS" default:"60"`
-	Fping   string `short:"f" long:"fping"  description:"Fping binary path" value-name:"PATH" default:"/usr/bin/fping"`
-	Count   uint   `short:"c" long:"count"  description:"Number of pings to send at each period" value-name:"N" default:"20"`
-	Version bool   `long:"version" description:"Show version"`
+	Listen         string `short:"l" long:"listen" description:"Listen address" value-name:"[HOST]:PORT" default:":9605"`
+	Period         uint   `short:"p" long:"period" description:"Period in seconds, should match Prometheus scrape interval" value-name:"SECS" default:"60"`
+	Fping          string `short:"f" long:"fping"  description:"Fping binary path" value-name:"PATH" default:"/usr/bin/fping"`
+	Count          uint   `short:"c" long:"count"  description:"Number of pings to send at each period" value-name:"N" default:"20"`
+	StaleThreshold uint   `short:"s" long:"stale-threshold" description:"Stale target threshold in seconds" value-name:"SECS" default:"300"`
+	Version        bool   `long:"version" description:"Show version"`
 }
 
 // Build information.
@@ -49,7 +50,8 @@ func probeHandler(w http.ResponseWriter, r *http.Request) {
 
 	target := GetTarget(
 		WorkerSpec{
-			period: time.Second * time.Duration(opts.Period),
+			period:         time.Second * time.Duration(opts.Period),
+			staleThreshold: uint(opts.StaleThreshold),
 		},
 		TargetSpec{
 			host: targetParam,

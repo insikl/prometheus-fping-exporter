@@ -15,21 +15,24 @@ import (
 )
 
 const (
-	//maxTargetsPerFping    = 100
+	//maxTargetsPerFping     = 100
 	defaultMinWait         = 10
 	startDelayMilliseconds = 1000
+	defaultStaleThreshold  = 300 // 5 minutes in seconds
 )
 
 type WorkerSpec struct {
-	period  time.Duration
-	count   uint
-	minWait uint
+	period         time.Duration
+	count          uint
+	minWait        uint
+	staleThreshold uint
 }
 
 type Worker struct {
 	sync.Mutex
-	spec    WorkerSpec
-	targets map[TargetSpec]*Target
+	spec         WorkerSpec
+	targets      map[TargetSpec]*Target
+	lastAccessed time.Time
 }
 
 func NewWorker(spec WorkerSpec) *Worker {
@@ -37,6 +40,7 @@ func NewWorker(spec WorkerSpec) *Worker {
 	// initialize defaults
 	spec.count = opts.Count
 	spec.minWait = defaultMinWait
+	spec.staleThreshold = defaultStaleThreshold
 
 	// if the period is very short, shorten as well minWait
 	if spec.period < 15*time.Second {
@@ -44,9 +48,10 @@ func NewWorker(spec WorkerSpec) *Worker {
 	}
 
 	// create Worker
-	w := Worker{
-		spec:    spec,
-		targets: make(map[TargetSpec]*Target),
+	w := &Worker{
+		spec:         spec,
+		targets:      make(map[TargetSpec]*Target),
+		lastAccessed: time.Now(),
 	}
 
 	// TODO: reject if period too small (i.e. < 2 seconds)
@@ -54,20 +59,50 @@ func NewWorker(spec WorkerSpec) *Worker {
 	// start main loop
 	go w.cycleRun(startDelayMilliseconds * time.Millisecond)
 
-	return &w
+	return w
 }
 
 func (w *Worker) GetWorkerTarget(ts TargetSpec) *Target {
-	// TODO: delete unused targets (i.e. if not called for more than 2 periods or so)
-
 	w.Lock()
 	defer w.Unlock()
+
+	now := time.Now()
+
+	// Remove stale targets before creating new one
+	if now.Sub(w.lastAccessed) > time.Duration(w.spec.staleThreshold)*time.Second {
+		w.RemoveStaleTargets()
+	}
+
 	t, ok := w.targets[ts]
 	if !ok {
 		t = NewTarget(ts)
+		t.lastAccessed = now
 		w.targets[ts] = t
+	} else {
+		t.lastAccessed = now
 	}
+
 	return t
+}
+
+func (w *Worker) RemoveStaleTargets() {
+	w.Lock()
+	defer w.Unlock()
+
+	now := time.Now()
+	removed := []string{}
+
+	for host, target := range w.targets {
+		if now.Sub(target.lastAccessed) > time.Duration(w.spec.staleThreshold)*time.Second {
+			log.Printf("Removed stale target: %s (last accessed %v ago)", host.host, now.Sub(target.lastAccessed))
+			delete(w.targets, host)
+			removed = append(removed, host.host)
+		}
+	}
+
+	if len(removed) > 0 {
+		log.Printf("Cleaned up %d stale targets", len(removed))
+	}
 }
 
 func (w *Worker) cycleRun(sleepTime time.Duration) {
@@ -113,6 +148,9 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 	}
 
 	w.addResults(errbuf.String())
+
+	// Remove stale targets after each cycle
+	w.RemoveStaleTargets()
 }
 
 func (w *Worker) addResults(fpingOutput string) {
