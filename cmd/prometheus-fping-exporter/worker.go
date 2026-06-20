@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	//maxTargetsPerFping     = 100
+	//maxTargetsPerFping      = 100
 	defaultMinWait         = 10
 	startDelayMilliseconds = 1000
 	defaultStaleThreshold  = 300 // 5 minutes in seconds
@@ -70,7 +70,7 @@ func (w *Worker) GetWorkerTarget(ts TargetSpec) *Target {
 
 	// Remove stale targets before creating new one
 	if now.Sub(w.lastAccessed) > time.Duration(w.spec.staleThreshold)*time.Second {
-		w.RemoveStaleTargets()
+		w.removeStaleTargetsNoLock()
 	}
 
 	t, ok := w.targets[ts]
@@ -88,7 +88,10 @@ func (w *Worker) GetWorkerTarget(ts TargetSpec) *Target {
 func (w *Worker) RemoveStaleTargets() {
 	w.Lock()
 	defer w.Unlock()
+	w.removeStaleTargetsNoLock()
+}
 
+func (w *Worker) removeStaleTargetsNoLock() {
 	now := time.Now()
 	removed := []string{}
 
@@ -110,6 +113,17 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 
 	// TODO: only run fping with at most maxTargetsPerFping
 	// -> launch multiple go routines
+
+	// Check if any targets exist before running fping
+	w.Lock()
+	targetCount := len(w.targets)
+	w.Unlock()
+
+	if targetCount == 0 {
+		log.Println("No targets to ping, skipping fping")
+		go w.cycleRun(w.spec.period)
+		return
+	}
 
 	// schedule the next run
 	go w.cycleRun(w.spec.period)
