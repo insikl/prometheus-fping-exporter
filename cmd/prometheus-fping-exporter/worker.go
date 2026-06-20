@@ -18,7 +18,6 @@ const (
 	//maxTargetsPerFping      = 100
 	defaultMinWait         = 10
 	startDelayMilliseconds = 1000
-	defaultStaleThreshold  = 300 // 5 minutes in seconds
 )
 
 type WorkerSpec struct {
@@ -40,7 +39,7 @@ func NewWorker(spec WorkerSpec) *Worker {
 	// initialize defaults
 	spec.count = opts.Count
 	spec.minWait = defaultMinWait
-	spec.staleThreshold = defaultStaleThreshold
+	spec.staleThreshold = opts.StaleThreshold
 
 	// if the period is very short, shorten as well minWait
 	if spec.period < 15*time.Second {
@@ -145,7 +144,7 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 	// start fping
 	ctx, cancel := context.WithTimeout(context.Background(), w.spec.period)
 	defer cancel()
-	fmt.Println("start fping: ", fpingArgs)
+	log.Println("start fping: ", fpingArgs)
 	cmd := exec.CommandContext(ctx, opts.Fping, fpingArgs...)
 	var outbuf, errbuf bytes.Buffer
 	cmd.Stdout = &outbuf
@@ -156,10 +155,12 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 		// exit 1 if some hosts were unreachable
 		// exit 2 if any IP addresses were not found,
 		if ws.ExitStatus() != 1 && ws.ExitStatus() != 2 {
-			fmt.Printf("fping error (exit: %d)", ws.ExitStatus())
+			log.Printf("fping error (exit: %d)", ws.ExitStatus())
 			return
 		}
 	}
+
+	log.Println("end fping: ", fpingArgs)
 
 	w.addResults(errbuf.String())
 
