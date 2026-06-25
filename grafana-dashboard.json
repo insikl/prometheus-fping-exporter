@@ -1,1005 +1,1317 @@
 {
-  "annotations": {
-    "list": [
-      {
-        "builtIn": 1,
-        "datasource": {
-          "type": "grafana",
-          "uid": "-- Grafana --"
-        },
-        "enable": true,
-        "hide": true,
-        "iconColor": "rgba(0, 211, 255, 1)",
-        "name": "Annotations & Alerts",
-        "type": "dashboard"
-      }
-    ]
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "ee5xqvrp5w64gf",
+    "generation": 31,
+    "creationTimestamp": "2024-12-04T20:50:25Z",
+    "labels": {},
+    "annotations": {}
   },
-  "description": "Shows latency from fping output in a smoke type view",
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": 6,
-  "links": [],
-  "panels": [
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "be4hg3g0caqdcc"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "barWidthFactor": 0.6,
-            "drawStyle": "line",
-            "fillOpacity": 0,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 0,
-            "pointSize": 2,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": 120000,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "grafana",
+            "version": "v0",
+            "spec": {},
+            "labels": {
+              "grafana.app/export-label": "grafana-1"
             }
           },
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "s"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p5"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#202020",
-                  "mode": "fixed"
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "builtIn": true
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "description": "Shows latency from fping output in a smoke type view",
+    "editable": true,
+    "elements": {
+      "panel-1": {
+        "kind": "Panel",
+        "spec": {
+          "id": 1,
+          "title": "Ping Latency to ${fping_target}",
+          "description": "Summary of 20 pings from ${fping_source}",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"1.000\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p100",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p100",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.950\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p95",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p95",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.900\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p90",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p90",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.850\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p85",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p85",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.800\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p80",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p80",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.750\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p75",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p75",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.700\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p70",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p70",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.650\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p65",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p65",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.600\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p60",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p60",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.550\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p55",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p55",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.500\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p50",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p50",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.450\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p45",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p45",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.400\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p40",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p40",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.350\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p35",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p35",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.300\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p30",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p30",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.250\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p25",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p25",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.200\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p20",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p20",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.150\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p15",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p15",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.100\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "p10",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p10",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.050\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "legendFormat": "p5",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "p5",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "exemplar": false,
+                        "expr": "avg_over_time(fping_rtt{quantile=\"0.500\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "median",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "median",
+                    "hidden": false
+                  }
+                },
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "prometheus",
+                      "version": "v0",
+                      "spec": {
+                        "disableTextWrap": false,
+                        "editorMode": "code",
+                        "exemplar": false,
+                        "expr": "avg_over_time(fping_lost_count{instance=~\"$fping_target@$fping_source:.*\"}[$__interval])/avg_over_time(fping_sent_count{instance=~\"$fping_target@$fping_source:.*\"}[$__interval])*100",
+                        "fullMetaSearch": false,
+                        "includeNullMetadata": true,
+                        "instant": false,
+                        "legendFormat": "% loss",
+                        "range": true,
+                        "useBackend": false
+                      },
+                      "labels": {
+                        "grafana.app/export-label": "prometheus-1",
+                        "grafana.app/export-datasource-name": "prometheus"
+                      }
+                    },
+                    "refId": "loss",
+                    "hidden": false
+                  }
                 }
+              ],
+              "transformations": [],
+              "queryOptions": {
+                "interval": "1m"
               }
-            ]
+            }
           },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p10"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#404040",
-                  "mode": "fixed"
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.1.0",
+            "spec": {
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": false
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "none"
                 }
               },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p5"
+              "fieldConfig": {
+                "defaults": {
+                  "unit": "s",
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 0,
+                    "pointSize": 2,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "never",
+                    "showValues": false,
+                    "spanNulls": 120000,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "fieldMinMax": false
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p5"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#202020",
+                          "mode": "fixed"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p10"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#404040",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p5"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p15"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#575757",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p10"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p20"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#6f6f6f",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p15"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p25"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#878787",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p20"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p30"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#9f9f9f",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p25"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p35"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#b7b7b7",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p30"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p40"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#cfcfcf",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p35"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p45"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#e7e7e7",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p40"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p50"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#ffffff",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p45"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p55"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#ffffffff",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p50"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p60"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#ffffff",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p55"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p65"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#e7e7e7",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p60"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p70"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#cfcfcf",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p65"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p75"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#b7b7b7",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p70"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p80"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#9f9f9f",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p75"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p85"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#878787",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p80"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p90"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#6f6f6f",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p85"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p95"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#575757",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p90"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "p100"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#404040",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.fillBelowTo",
+                        "value": "p95"
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "median"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#ffb357",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "custom.lineWidth",
+                        "value": 2
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "% loss"
+                    },
+                    "properties": [
+                      {
+                        "id": "color",
+                        "value": {
+                          "fixedColor": "#e02f44",
+                          "mode": "fixed"
+                        }
+                      },
+                      {
+                        "id": "unit",
+                        "value": "percent"
+                      },
+                      {
+                        "id": "custom.drawStyle",
+                        "value": "bars"
+                      },
+                      {
+                        "id": "custom.axisSoftMax",
+                        "value": 100
+                      },
+                      {
+                        "id": "custom.drawStyle",
+                        "value": "bars"
+                      },
+                      {
+                        "id": "custom.fillOpacity",
+                        "value": 100
+                      }
+                    ]
+                  }
+                ]
               }
-            ]
-          },
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "GridLayout",
+      "spec": {
+        "items": [
           {
-            "matcher": {
-              "id": "byName",
-              "options": "p15"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#575757",
-                  "mode": "fixed"
-                }
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 0,
+              "width": 24,
+              "height": 10,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-1"
               },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p10"
+              "repeat": {
+                "mode": "variable",
+                "value": "fping_target",
+                "direction": "v",
+                "maxPerRow": 2
               }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p20"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#6f6f6f",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p15"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p25"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#878787",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p20"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p30"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#9f9f9f",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p25"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p35"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#b7b7b7",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p30"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p40"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#cfcfcf",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p35"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p45"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#e7e7e7",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p40"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p50"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ffffff",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p45"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p55"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ffffffff",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p50"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p60"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ffffff",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p55"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p65"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#e7e7e7",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p60"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p70"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#cfcfcf",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p65"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p75"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#b7b7b7",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p70"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p80"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#9f9f9f",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p75"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p85"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#878787",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p80"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p90"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#6f6f6f",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p85"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p95"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#575757",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p90"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p100"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#404040",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.fillBelowTo",
-                "value": "p95"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "median"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#ffb357",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "custom.lineWidth",
-                "value": 2
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "% loss"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#e02f44",
-                  "mode": "fixed"
-                }
-              },
-              {
-                "id": "unit",
-                "value": "percent"
-              },
-              {
-                "id": "custom.drawStyle",
-                "value": "bars"
-              },
-              {
-                "id": "custom.axisSoftMax",
-                "value": 100
-              },
-              {
-                "id": "custom.drawStyle",
-                "value": "bars"
-              },
-              {
-                "id": "custom.fillOpacity",
-                "value": 100
-              }
-            ]
+            }
           }
         ]
-      },
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "id": 1,
-      "interval": "1m",
-      "maxPerRow": 2,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": false
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
-      },
-      "pluginVersion": "11.4.0",
-      "repeat": "fping_target",
-      "repeatDirection": "v",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"1.000\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p100",
-          "range": true,
-          "refId": "p100",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.950\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p95",
-          "range": true,
-          "refId": "p95",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.900\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p90",
-          "range": true,
-          "refId": "p90",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.850\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p85",
-          "range": true,
-          "refId": "p85",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.800\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p80",
-          "range": true,
-          "refId": "p80",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.750\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p75",
-          "range": true,
-          "refId": "p75",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.700\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p70",
-          "range": true,
-          "refId": "p70",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.650\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p65",
-          "range": true,
-          "refId": "p65",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.600\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p60",
-          "range": true,
-          "refId": "p60",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.550\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p55",
-          "range": true,
-          "refId": "p55",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.500\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p50",
-          "range": true,
-          "refId": "p50",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.450\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p45",
-          "range": true,
-          "refId": "p45",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.400\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p40",
-          "range": true,
-          "refId": "p40",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.350\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p35",
-          "range": true,
-          "refId": "p35",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.300\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p30",
-          "range": true,
-          "refId": "p30",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.250\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p25",
-          "range": true,
-          "refId": "p25",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.200\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p20",
-          "range": true,
-          "refId": "p20",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.150\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p15",
-          "range": true,
-          "refId": "p15",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.100\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "p10",
-          "range": true,
-          "refId": "p10",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.050\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "includeNullMetadata": true,
-          "legendFormat": "p5",
-          "range": true,
-          "refId": "p5",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg_over_time(fping_rtt{quantile=\"0.500\", instance=~\"$fping_target@$fping_source:.*\"}[$__interval])",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "median",
-          "range": true,
-          "refId": "median",
-          "useBackend": false
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "be4hg3g0caqdcc"
-          },
-          "disableTextWrap": false,
-          "editorMode": "code",
-          "exemplar": false,
-          "expr": "avg_over_time(fping_lost_count{instance=~\"$fping_target@$fping_source:.*\"}[$__interval])/avg_over_time(fping_sent_count{instance=~\"$fping_target@$fping_source:.*\"}[$__interval])*100",
-          "fullMetaSearch": false,
-          "hide": false,
-          "includeNullMetadata": true,
-          "instant": false,
-          "legendFormat": "% loss",
-          "range": true,
-          "refId": "loss",
-          "useBackend": false
-        }
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "tags": [
+      "latency",
+      "ping"
+    ],
+    "timeSettings": {
+      "timezone": "browser",
+      "from": "now-24h",
+      "to": "now",
+      "autoRefresh": "",
+      "autoRefreshIntervals": [
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
       ],
-      "title": "Ping Latency ${fping_target} from ${fping_source}",
-      "type": "timeseries"
-    }
-  ],
-  "preload": false,
-  "schemaVersion": 40,
-  "tags": [
-    "latency",
-    "ping"
-  ],
-  "templating": {
-    "list": [
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "SmokePing Latency",
+    "variables": [
       {
-        "current": {},
-        "definition": "label_values(fping_rtt_count,instance)",
-        "includeAll": false,
-        "label": "Source Host",
-        "name": "fping_source",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(fping_rtt_count,instance)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "/.+\\@(.+)\\:.*/",
-        "type": "query"
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "job",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Job",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "qryType": 1,
+              "query": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\"},job)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            }
+          },
+          "regex": "",
+          "regexApplyTo": "value",
+          "sort": "disabled",
+          "definition": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\"},job)",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
       },
       {
-        "current": {},
-        "definition": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\"},job)",
-        "label": "Job",
-        "name": "job",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\"},job)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "/smokeping_(.+)/",
-        "type": "query"
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "fping_source",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Source Host",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "qryType": 1,
+              "query": "label_values(fping_rtt_count,instance)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            }
+          },
+          "regex": "/.+\\@(.+)\\:.*/",
+          "regexApplyTo": "value",
+          "sort": "disabled",
+          "definition": "label_values(fping_rtt_count,instance)",
+          "options": [],
+          "multi": false,
+          "includeAll": false,
+          "allowCustomValue": true
+        }
       },
       {
-        "current": {
-          "text": "All",
-          "value": [
-            "$__all"
-          ]
-        },
-        "definition": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\", job=\"smokeping_$job\"},instance)",
-        "includeAll": true,
-        "label": "Target Host",
-        "multi": true,
-        "name": "fping_target",
-        "options": [],
-        "query": {
-          "qryType": 1,
-          "query": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\", job=\"smokeping_$job\"},instance)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
-        },
-        "refresh": 1,
-        "regex": "/(.+)\\@.*/",
-        "type": "query"
+        "kind": "QueryVariable",
+        "spec": {
+          "name": "fping_target",
+          "current": {
+            "text": "",
+            "value": ""
+          },
+          "label": "Target Host",
+          "hide": "dontHide",
+          "refresh": "onDashboardLoad",
+          "skipUrlSync": false,
+          "query": {
+            "kind": "DataQuery",
+            "group": "prometheus",
+            "version": "v0",
+            "spec": {
+              "qryType": 1,
+              "query": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\", job=\"$job\"},instance)",
+              "refId": "PrometheusVariableQueryEditor-VariableQuery"
+            }
+          },
+          "regex": "/(.+)\\@.*/",
+          "regexApplyTo": "value",
+          "sort": "disabled",
+          "definition": "label_values(fping_rtt_count{instance=~\".+@$fping_source:.+\", job=\"$job\"},instance)",
+          "options": [],
+          "multi": true,
+          "includeAll": true,
+          "allowCustomValue": true
+        }
       }
     ]
-  },
-  "time": {
-    "from": "now-24h",
-    "to": "now"
-  },
-  "timepicker": {
-    "refresh_intervals": [
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ]
-  },
-  "timezone": "browser",
-  "title": "SmokePing Latency",
-  "uid": "ee5xqvrp5w64gf",
-  "version": 27,
-  "weekStart": ""
+  }
 }
