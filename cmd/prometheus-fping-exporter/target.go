@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"math"
 	"sync"
 	"time"
 
+	"github.com/insikl/prometheus-fping-exporter/internal/logger"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
@@ -24,7 +24,7 @@ func NewTarget(ts TargetSpec) *Target {
 		spec:     ts,
 		registry: prometheus.NewRegistry()}
 
-	log.Println("new target:", ts.host)
+	logger.Info("new target: %s", ts.host)
 
 	//prometheus.WrapRegistererWith(prometheus.Labels{"zone": "aaa"}, t.registry).MustRegister(t)
 	t.registry.MustRegister(&t)

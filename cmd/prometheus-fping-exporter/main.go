@@ -9,6 +9,8 @@ import (
 
 	flags "github.com/jessevdk/go-flags"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"github.com/insikl/prometheus-fping-exporter/internal/logger"
 )
 
 var opts struct {
@@ -17,6 +19,7 @@ var opts struct {
 	Fping          string `short:"f" long:"fping"  description:"Fping binary path" value-name:"PATH" default:"/usr/bin/fping"`
 	Count          uint   `short:"c" long:"count"  description:"Number of pings to send at each period" value-name:"N" default:"20"`
 	StaleThreshold uint   `short:"s" long:"stale-threshold" description:"Stale target threshold in seconds" value-name:"SECS" default:"300"`
+	Debug          bool   `long:"debug" description:"Enable debug logging"`
 	Version        bool   `long:"version" description:"Show version"`
 }
 
@@ -67,6 +70,15 @@ func main() {
 		os.Exit(0)
 	}
 
+	// NOTE: Disable all default log flags, custom logger handles formatting.
+	log.SetFlags(0)
+
+	// Set debug logging if set, init with WARN first as default
+	logger.SetLogLevel(logger.WARN)
+	if opts.Debug {
+		logger.SetLogLevel(logger.DEBUG)
+	}
+
 	if opts.Version {
 		fmt.Printf("%v, version %v (branch: %v, revision: %v)\n",
 			BuildName,
@@ -82,10 +94,9 @@ func main() {
 	}
 
 	if _, err := os.Stat(opts.Fping); os.IsNotExist(err) {
-		fmt.Printf("could not find fping at %q\n", opts.Fping)
-		os.Exit(1)
+		logger.Fatal("could not find fping at %q", opts.Fping)
 	}
 	http.Handle("/metrics", promhttp.Handler())
 	http.HandleFunc("/probe", probeHandler)
-	log.Fatal(http.ListenAndServe(opts.Listen, nil))
+	logger.Fatal("%v", http.ListenAndServe(opts.Listen, nil))
 }

@@ -5,7 +5,7 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"log"
+	"github.com/insikl/prometheus-fping-exporter/internal/logger"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -35,7 +35,7 @@ type Worker struct {
 }
 
 func NewWorker(spec WorkerSpec) *Worker {
-	log.Println("New worker (period:", spec.period, ")")
+	logger.Info("New worker (period: %s)", spec.period)
 	// initialize defaults
 	spec.count = opts.Count
 	spec.minWait = defaultMinWait
@@ -96,14 +96,14 @@ func (w *Worker) removeStaleTargetsNoLock() {
 
 	for host, target := range w.targets {
 		if now.Sub(target.lastAccessed) > time.Duration(w.spec.staleThreshold)*time.Second {
-			log.Printf("Removed stale target: %s (last accessed %v ago)", host.host, now.Sub(target.lastAccessed))
+			logger.Info("Removed stale target: %s (last accessed %v ago)", host.host, now.Sub(target.lastAccessed))
 			delete(w.targets, host)
 			removed = append(removed, host.host)
 		}
 	}
 
 	if len(removed) > 0 {
-		log.Printf("Cleaned up %d stale targets", len(removed))
+		logger.Info("Cleaned up %d stale targets", len(removed))
 	}
 }
 
@@ -119,7 +119,7 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 	w.Unlock()
 
 	if targetCount == 0 {
-		log.Println("No targets to ping, skipping fping")
+		logger.Info("No targets to ping, skipping fping")
 		go w.cycleRun(w.spec.period)
 		return
 	}
@@ -144,7 +144,7 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 	// start fping
 	ctx, cancel := context.WithTimeout(context.Background(), w.spec.period)
 	defer cancel()
-	log.Println("start fping: ", fpingArgs)
+	logger.Info("start fping: %s", fpingArgs)
 	cmd := exec.CommandContext(ctx, opts.Fping, fpingArgs...)
 	var outbuf, errbuf bytes.Buffer
 	cmd.Stdout = &outbuf
@@ -155,12 +155,12 @@ func (w *Worker) cycleRun(sleepTime time.Duration) {
 		// exit 1 if some hosts were unreachable
 		// exit 2 if any IP addresses were not found,
 		if ws.ExitStatus() != 1 && ws.ExitStatus() != 2 {
-			log.Printf("fping error (exit: %d)", ws.ExitStatus())
+			logger.Error("fping error (exit: %d)", ws.ExitStatus())
 			return
 		}
 	}
 
-	log.Println("end fping: ", fpingArgs)
+	logger.Info("end fping: %s", fpingArgs)
 
 	w.addResults(errbuf.String())
 
@@ -174,7 +174,7 @@ func (w *Worker) addResults(fpingOutput string) {
 		// Split host and results
 		text := strings.SplitN(scanner.Text(), " : ", 2)
 		if len(text) != 2 {
-			log.Println("Error parsing fping output: ", scanner.Text())
+			logger.Error("Error parsing fping output: %s", scanner.Text())
 			continue
 		}
 
@@ -182,14 +182,14 @@ func (w *Worker) addResults(fpingOutput string) {
 		host := TargetSpec{host: strings.TrimSpace(text[0])}
 		t, ok := w.targets[host]
 		if !ok {
-			log.Println("Error: fping result for unknown target: ", text[0])
+			logger.Error("Error: fping result for unknown target: %s", text[0])
 			continue
 		}
 
 		// Parse results
 		measurements, err := ParseMeasurements(text[1])
 		if err != nil {
-			log.Println("Error parsing fping output: ", text[1])
+			logger.Error("Error parsing fping output: %s", text[1])
 			continue
 		}
 
