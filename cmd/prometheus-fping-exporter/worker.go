@@ -96,14 +96,18 @@ func (w *Worker) removeStaleTargetsNoLock() {
 
 	for host, target := range w.targets {
 		if now.Sub(target.lastAccessed) > time.Duration(w.spec.staleThreshold)*time.Second {
-			logger.Info("Removed stale target: %s (last accessed %v ago)", host.host, now.Sub(target.lastAccessed))
+			logger.Info(
+				"Removed stale target: %s (last accessed %v ago)",
+				host.host,
+				now.Sub(target.lastAccessed).Round(time.Second),
+			)
 			delete(w.targets, host)
 			removed = append(removed, host.host)
 		}
 	}
 
 	if len(removed) > 0 {
-		logger.Info("Cleaned up %d stale targets", len(removed))
+		logger.Warn("Cleaned up %d stale targets", len(removed))
 	}
 }
 
