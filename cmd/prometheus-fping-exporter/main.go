@@ -30,13 +30,14 @@ const (
 
 // Build information populated at build-time.
 var (
-	BuildName     string
-	BuildCommit   string
-	BuildBranch   string
-	BuildUser     string
-	BuildDate     string
-	BuildGo       string
-	BuildPlatform string
+	BuildName   string
+	BuildCommit string
+	BuildBranch string
+	BuildUser   string
+	BuildDate   string
+	BuildGo     string
+	BuildOs     string
+	BuildArch   string
 )
 
 func probeHandler(w http.ResponseWriter, r *http.Request) {
@@ -89,7 +90,7 @@ func main() {
 		fmt.Printf("  build user:       %v\n", BuildUser)
 		fmt.Printf("  build date:       %v\n", BuildDate)
 		fmt.Printf("  go version:       %v\n", BuildGo)
-		fmt.Printf("  platform:         %v\n", BuildPlatform)
+		fmt.Printf("  platform:         %v/%v\n", BuildOs, BuildArch)
 		os.Exit(0)
 	}
 
