@@ -25,7 +25,7 @@ var opts struct {
 
 // Build information.
 const (
-	BuildVersion = "0.2.0"
+	BuildVersion = "0.2.1"
 )
 
 // Build information populated at build-time.
